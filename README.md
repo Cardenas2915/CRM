@@ -1,5 +1,5 @@
-# CRM-HTML
-CRM (administrador de clientes y productos) hecho con React, Node y MongoDB 
+# CRM
+administrador de clientes y productos hecho con React, Node y MongoDB 
 
 # Getting Started with Create React App
 
