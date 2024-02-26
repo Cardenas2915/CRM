@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import clienteAxios from '../../config/axios';
 
 import Cliente from './Cliente';
+import Spinner from '../layouts/Spinner';
 
 
 export default function Clientes() {
@@ -26,7 +27,7 @@ export default function Clientes() {
         consultarAPI();
     }, [clientes]);
 
-
+    if(!clientes.length) return <Spinner />
     return (
         <Fragment>
             <h2>Clientes</h2>
