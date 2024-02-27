@@ -49,6 +49,11 @@ export default function Cliente({ cliente }) {
                     Editar Cliente
                 </Link>
 
+                <Link to={`/pedidos/nuevo/${_id}`} className="btn btn-amarillo">
+                    <i className="fas fa-plus"></i>
+                    Nuevo pedido
+                </Link>
+
                 <button onClick={() => eliminarCliente(_id)} type="button" className="btn btn-rojo btn-eliminar">
                     <i className="fas fa-times"></i>
                     Eliminar Cliente

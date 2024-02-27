@@ -17,6 +17,7 @@ import EditarProducto from "./componentes/productos/EditarProducto";
 import NuevoProducto from "./componentes/productos/NuevoProducto";
 
 import Pedidos from "./componentes/pedidos/Pedidos";
+import NuevoPedido from "./componentes/pedidos/NuevoPedido";
 
 function App() {
   return (
@@ -32,10 +33,13 @@ function App() {
               <Route exact path="/" element={<Clientes/>} />
               <Route exact path="/clientes/nuevo" element={<NuevoCliente/>} />
               <Route exact path="/clientes/editar/:id" element={<EditarCliente/>} />
+
               <Route exact path="/productos" element={<Productos/>} />
               <Route exact path="/productos/nuevo" element={<NuevoProducto/>} />
               <Route exact path="/productos/editar/:id" element={<EditarProducto/>} />
+
               <Route exact path="/pedidos" element={<Pedidos/>} />
+              <Route exact path="/pedidos/nuevo/:id" element={<NuevoPedido/>} />
             </Routes>
 
           </main>
