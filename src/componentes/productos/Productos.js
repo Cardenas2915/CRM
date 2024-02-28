@@ -1,27 +1,57 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Fragment, useEffect, useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import clienteAxios from '../../config/axios';
 import Producto from './Producto';
 import Spinner from '../layouts/Spinner'
+import { CRMContext } from '../../context/CRMContext';
 
 
 export default function Productos() {
+    const navigate = useNavigate();
 
-    const [productos, guardarProductos ] = useState([]);
+    const [productos, guardarProductos] = useState([]);
 
-    useEffect( () => {
-        //query a la api
-        const consultarApi = async () => {
-            const productosConsulta = await clienteAxios.get('/productos')
-            guardarProductos(productosConsulta.data)
+    //UTILIZAR EL CONTEXT
+    const [auth, guardarAuth] = useContext(CRMContext);
 
+    useEffect(() => {
+
+        if (auth.token !== '') {
+            //query a la api
+            const consultarApi = async () => {
+
+                try {
+                    const productosConsulta = await clienteAxios.get('/productos', {
+                        headers: {
+                            Authorization: `Bearer ${auth.token}`
+                        }
+                    })
+
+                    guardarProductos(productosConsulta.data)
+                } catch (error) {
+                    //ERROR CON AUTORIZACION
+                    if(error.response.status = 500){
+                        navigate('/iniciar-sesion')
+                    }
+                }
+
+
+            }
+            //llamado a la api
+            consultarApi();
+
+        } else {
+            navigate('/iniciar-sesion')
         }
-        //llamado a la api
-        consultarApi();
-    },[productos])
+
+    }, [productos])
+
+    if (!auth.auth) {
+        navigate('/iniciar-sesion')
+    }
 
     //Spinner de carga
-    if(!productos.length) return <Spinner/>
+    if (!productos.length) return <Spinner />
 
     return (
         <Fragment>
@@ -33,7 +63,7 @@ export default function Productos() {
 
             <ul className="listado-productos">
                 {productos.map(producto => (
-                    <Producto 
+                    <Producto
                         key={producto._id}
                         producto={producto}
                     />

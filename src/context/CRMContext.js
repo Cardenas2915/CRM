@@ -4,7 +4,7 @@ const CRMContext = React.createContext([{}, () => {}]);
 
 const CRMProvider = props => {
     const [auth, guardarAuth] = useState({
-        Auth: '',
+        token: '',
         auth: false
     });
 

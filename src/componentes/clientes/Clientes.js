@@ -58,7 +58,7 @@ export default function Clientes() {
     }, [clientes]);
 
     if(!auth.auth) {
-        navigate('/iniciar-sesion')
+        navigate('/iniciar-sesion' , {replace: true})
     }
 
     if (!clientes.length) return <Spinner />

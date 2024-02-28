@@ -1,10 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
+//importar el context
+import { CRMContext } from '../../context/CRMContext';
+
 export default function NuevoCliente() {
     const navigate = useNavigate();
+
     //cliente = state, guardarCliente = funcion para guardar el state
     const [cliente, guardarCliente] = useState({
         nombre: "",
@@ -13,6 +17,9 @@ export default function NuevoCliente() {
         email: "",
         telefono: "",
     });
+
+    //UTILIZAR EL CONTEXT
+    const [auth, guardarAuth] = useContext(CRMContext);
 
     //leer datos del formulario
     const actualizarState = e => {
@@ -42,7 +49,11 @@ export default function NuevoCliente() {
         e.preventDefault();
 
         //enviar peticion
-        clienteAxios.post('/clientes', cliente)
+        clienteAxios.post('/clientes', cliente,  {
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        })
             .then(res => {
 
                 //validar errores de mongo
@@ -58,11 +69,20 @@ export default function NuevoCliente() {
                         text: `${res.data.mensaje}`,
                         icon: "success"
                     });
+
                     navigate('/', {replace:true})
                 }
             })
             
     }
+
+    //VERIFICAR SI EL USUARIO ESTA AUTENTICADO
+    useEffect(() => {
+        // Verificar si el usuario está autenticado
+        if (!auth.auth && localStorage.getItem('token') === auth.token) {
+            navigate('/iniciar-sesion', { replace: true });
+        }
+    }, [auth]);
 
     return (
         <Fragment>
